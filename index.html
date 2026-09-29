@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Casa da Navalha — barbearia artesanal. Corte, barba e pintura com hora marcada.">
+  <title>Casa da Navalha | Barbearia Artesanal</title>
+  <link rel="stylesheet" href="theme.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body class="bg-[var(--color-bg)] text-[var(--color-text)]">
+  <div class="page-noise" aria-hidden="true"></div>
+
+  <aside class="sidebar fixed inset-y-0 left-0 z-40 flex w-72 flex-col border-r border-[var(--color-border)] bg-[var(--color-surface)] p-7 lg:translate-x-0">
+    <div class="flex items-center justify-between">
+      <a href="#inicio" class="flex items-center gap-3" aria-label="Âncora e Navalha início">
+        <span class="flex h-11 w-11 items-center justify-center rounded-[var(--radius)] bg-[var(--color-primary)] text-[var(--color-primary-contrast)]">
+          <i data-lucide="scissors" class="h-5 w-5"></i>
+        </span>
+        <span>
+          <strong class="font-heading block text-xl font-bold tracking-tight text-[var(--color-heading)]">Casa da Navalha</strong>
+          <small class="text-[10px] uppercase tracking-[.25em] text-[var(--color-muted)]">Barbearia artesanal</small>
+        </span>
+      </a>
+      <button data-menu-toggle class="lg:hidden" aria-label="Fechar menu">
+        <i data-lucide="x"></i>
+      </button>
+    </div>
+
+    <nav class="mt-16 space-y-2" aria-label="Navegação principal">
+      <a class="nav-link active" href="#inicio"><i data-lucide="home"></i>Início</a>
+      <a class="nav-link" href="#sobre"><i data-lucide="book-open"></i>Sobre nós</a>
+      <a class="nav-link" href="#barbeiros"><i data-lucide="users"></i>Barbeiros</a>
+      <a class="nav-link" href="#estilos"><i data-lucide="image"></i>Estilos</a>
+      <a class="nav-link" href="#agendamento"><i data-lucide="calendar-days"></i>Agendamento</a>
+      <a class="nav-link" href="#duvidas"><i data-lucide="help-circle"></i>Dúvidas</a>
+    </nav>
+
+    <div class="mt-auto border-t border-[var(--color-border)] pt-6">
+      <div class="mb-5 flex items-start gap-3 text-sm">
+        <i data-lucide="clock-3" class="mt-1 h-4 w-4 text-[var(--color-primary)]"></i>
+        <span><strong class="block text-[var(--color-heading)]">Ter — Sáb</strong><span class="text-[var(--color-muted)]">09:00 — 20:00</span></span>
+      </div>
+      <div class="mb-7 flex items-start gap-3 text-sm">
+        <i data-lucide="map-pin" class="mt-1 h-4 w-4 text-[var(--color-primary)]"></i>
+        <span><strong class="block text-[var(--color-heading)]">Rua dos Ofícios, 118</strong><span class="text-[var(--color-muted)]">Vila Ipanema , Ipatinga</span></span>
+      </div>
+      <button data-theme-toggle class="flex w-full items-center justify-center gap-2 rounded-[var(--radius)] border border-[var(--color-border)] px-4 py-3 text-sm text-[var(--color-muted)] transition hover:border-[var(--color-primary)] hover:text-[var(--color-primary)]">
+        <i data-lucide="sun" class="h-4 w-4"></i> Alternar tema
+      </button>
+    </div>
+  </aside>
+
+  <div class="menu-backdrop fixed inset-0 z-30 bg-[var(--color-overlay)] backdrop-blur-sm"></div>
+
+  <main class="main-content ml-72">
+    <header class="flex items-center justify-between border-b border-[var(--color-border)] px-6 py-5 lg:hidden">
+      <button data-menu-toggle class="rounded-[var(--radius)] p-2 text-[var(--color-primary)]" aria-label="Abrir menu"><i data-lucide="menu"></i></button>
+      <a href="#inicio" class="flex items-center gap-2 font-heading text-lg font-bold text-[var(--color-heading)]"><i data-lucide="scissors" class="h-5 w-5 text-[var(--color-primary)]"></i>Casa da Navalha</a>
+      <a href="#agendamento" class="text-[var(--color-primary)]" aria-label="Ir para agendamento"><i data-lucide="calendar-plus"></i></a>
+    </header>
+
+    <section id="inicio" class="hero-image flex min-h-[650px] items-end px-6 py-20 md:px-16 lg:min-h-[760px] lg:px-24">
+      <div class="hero-copy max-w-3xl">
+        <p class="mb-5 flex items-center gap-3 text-xs font-semibold uppercase tracking-[.3em] text-[var(--color-primary)]">
+          <span class="h-px w-10 bg-[var(--color-primary)]"></span> Desde 2022
+        </p>
+        <h1 class="font-heading text-6xl leading-[.94] text-[var(--color-heading)] md:text-8xl">Corte preciso.<br><em class="text-[var(--color-primary)]">Estilo marcante.</em></h1>
+        <p class="mt-7 max-w-lg text-lg leading-relaxed text-white/75">Técnica apurada, boa conversa e cuidado em cada detalhe.</p>
+        <div class="mt-9 flex flex-wrap items-center gap-4">
+          <a href="#agendamento" class="primary-button inline-flex items-center gap-3 rounded-[var(--radius)] px-6 py-4 font-semibold">
+            Agendar meu horário <i data-lucide="arrow-up-right" class="h-5 w-5"></i>
+          </a>
+          <a href="#sobre" class="secondary-button inline-flex items-center gap-2 rounded-[var(--radius)] px-5 py-4 text-sm font-semibold">
+            Conhecer a casa <i data-lucide="chevron-down" class="h-4 w-4"></i>
+          </a>
+        </div>
+        <div class="mt-10 flex flex-wrap gap-6 text-sm text-white/65">
+          <span class="flex items-center gap-2"><i data-lucide="check" class="h-4 w-4 text-[var(--color-primary)]"></i>Com hora marcada</span>
+          <span class="flex items-center gap-2"><i data-lucide="check" class="h-4 w-4 text-[var(--color-primary)]"></i>Ambiente reservado</span>
+          <span class="flex items-center gap-2"><i data-lucide="check" class="h-4 w-4 text-[var(--color-primary)]"></i>Atendimento artesanal</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="sobre" class="bg-texture px-6 py-24 md:px-16 lg:px-24">
+      <div class="grid gap-14 lg:grid-cols-[.8fr_1.2fr] lg:items-center">
+        <div>
+          <p class="mb-4 text-xs font-semibold uppercase tracking-[.3em] text-[var(--color-primary)]">A nossa casa</p>
+          <h2 class="font-heading text-5xl leading-tight text-[var(--color-heading)]">Tradição que<br><em>se renova.</em></h2>
+        </div>
+        <div>
+          <p class="text-xl leading-relaxed text-[var(--color-text)]">Mais do que uma barbearia, um lugar para parar o tempo..</p>
+          <p class="mt-5 leading-relaxed text-[var(--color-muted)]">A Casa da Navalha une a barbearia clássica ao jeito moderno de cuidar do homem. Um espaço para relaxar, trocar uma boa conversa e sair com o corte do jeito que você gosta.</p>
+          <div class="mt-8 flex flex-wrap gap-8">
+            <div><strong class="font-heading text-3xl text-[var(--color-primary)]">4+</strong><span class="mt-1 block text-xs uppercase tracking-widest text-[var(--color-muted)]">anos de história</span></div>
+            <div><strong class="font-heading text-3xl text-[var(--color-primary)]">12k</strong><span class="mt-1 block text-xs uppercase tracking-widest text-[var(--color-muted)]">clientes atendidos</span></div>
+            <div><strong class="font-heading text-3xl text-[var(--color-primary)]">4.9</strong><span class="mt-1 block text-xs uppercase tracking-widest text-[var(--color-muted)]">avaliação média</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="barbeiros" class="px-6 py-24 md:px-16 lg:px-24">
+      <div class="mb-12 flex flex-wrap items-end justify-between gap-5">
+        <div>
+          <p class="mb-4 text-xs font-semibold uppercase tracking-[.3em] text-[var(--color-primary)]">Mãos por trás da arte</p>
+          <h2 class="font-heading text-5xl text-[var(--color-heading)]">Conheça nossos<br><em>barbeiros.</em></h2>
+        </div>
+        <p class="max-w-sm text-sm leading-relaxed text-[var(--color-muted)]">Experiência, personalidade e uma tesoura que sabe exatamente onde ir.</p>
+      </div>
+
+      <div class="grid gap-7 md:grid-cols-2">
+        <article class="profile-card group overflow-hidden rounded-[var(--radius)] border border-[var(--color-border)] bg-[var(--color-surface)]">
+          <div class="relative h-96 overflow-hidden">
+            <img src="https://cdn.jsdelivr.net/gh/mz-dev-cloud/uploadsmz@main/imagens/022a9052-fd9d-43e9-92b4-2977f38ce9bb.jpg" alt="Barbeiro Pedrão trabalhando" class="h-full w-full object-cover grayscale transition duration-500 group-hover:scale-105 group-hover:grayscale-0" loading="lazy">
+            <span class="absolute bottom-4 left-4 rounded-full bg-[var(--color-primary)] px-3 py-1 text-xs font-semibold text-[var(--color-primary-contrast)]">8 anos de experiência</span>
+          </div>
+          <div class="flex items-center justify-between p-6">
+            <div><h3 class="font-heading text-2xl text-[var(--color-heading)]">Pedrão</h3><p class="mt-1 text-sm text-[var(--color-muted)]">Especialista em cortes clássicos</p></div>
+            <a href="#agendamento" class="flex h-11 w-11 items-center justify-center rounded-full border border-[var(--color-border)] text-[var(--color-primary)] transition hover:bg-[var(--color-primary)] hover:text-[var(--color-primary-contrast)]" aria-label="Agendar com Pedrão"><i data-lucide="calendar-plus" class="h-5 w-5"></i></a>
+          </div>
+        </article>
+
+        <article class="profile-card group overflow-hidden rounded-[var(--radius)] border border-[var(--color-border)] bg-[var(--color-surface)]">
+          <div class="relative h-96 overflow-hidden">
+            <img src="https://cdn.jsdelivr.net/gh/mz-dev-cloud/uploadsmz@main/imagens/fa0a940f-ca51-4785-90de-5d1b6391f9f3.png" alt="Barbeiro Jan trabalhando" class="h-full w-full object-cover grayscale transition duration-500 group-hover:scale-105 group-hover:grayscale-0" loading="lazy">
+            <span class="absolute bottom-4 left-4 rounded-full bg-[var(--color-primary)] px-3 py-1 text-xs font-semibold text-[var(--color-primary-contrast)]">10 anos de experiência</span>
+          </div>
+          <div class="flex items-center justify-between p-6">
+            <div><h3 class="font-heading text-2xl text-[var(--color-heading)]">Jan</h3><p class="mt-1 text-sm text-[var(--color-muted)]">Especialista em degradês e barba</p></div>
+            <a href="#agendamento" class="flex h-11 w-11 items-center justify-center rounded-full border border-[var(--color-border)] text-[var(--color-primary)] transition hover:bg-[var(--color-primary)] hover:text-[var(--color-primary-contrast)]" aria-label="Agendar com Jan"><i data-lucide="calendar-plus" class="h-5 w-5"></i></a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="estilos" class="bg-[var(--color-surface)] px-6 py-24 md:px-16 lg:px-24">
+      <div class="mb-12">
+        <p class="mb-4 text-xs font-semibold uppercase tracking-[.3em] text-[var(--color-primary)]">Inspiração</p>
+        <h2 class="font-heading text-5xl text-[var(--color-heading)]">O corte certo<br><em>muda tudo.</em></h2>
+      </div>
+      <div class="grid auto-rows-[220px] gap-5 md:grid-cols-3">
+        <img src="https://cdn.jsdelivr.net/gh/mz-dev-cloud/uploadsmz@main/imagens/467d0508-4477-4fd3-a2f5-30d8b7230989.jpg" alt="Corte masculino clássico" class="h-full w-full rounded-[var(--radius)] object-cover md:row-span-2" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?auto=format&fit=crop&w=900&q=85" alt="Detalhe de corte fade" class="h-full w-full rounded-[var(--radius)] object-cover" loading="lazy">
+        <img src="https://cdn.jsdelivr.net/gh/mz-dev-cloud/uploadsmz@main/imagens/a427e3bd-2688-4ae3-ac31-e599a5e9f3ed.jpg" alt="Barba bem cuidada" class="h-full w-full rounded-[var(--radius)] object-cover" loading="lazy">
+        <img src="https://cdn.jsdelivr.net/gh/mz-dev-cloud/uploadsmz@main/imagens/43ef1799-d2d9-4035-9f48-652ae8f3714c.png" alt="Interior da barbearia" class="h-full w-full rounded-[var(--radius)] object-cover md:col-span-2" loading="lazy">
+      </div>
+    </section>
+
+    <section id="agendamento" class="px-6 py-24 md:px-16 lg:px-24">
+      <div class="mb-12">
+        <p class="mb-4 text-xs font-semibold uppercase tracking-[.3em] text-[var(--color-primary)]">Seu momento</p>
+        <h2 class="font-heading text-5xl text-[var(--color-heading)]">Reserve sua<br><em>cadeira.</em></h2>
+        <p class="mt-5 max-w-xl text-[var(--color-muted)]">É simples: escolha o serviço, o dia e o horário e deixe seus dados. No final, você verá um resumo do pedido.</p>
+      </div>
+
+      <div class="grid gap-10 lg:grid-cols-[1fr_.72fr]">
+        <form id="booking-form" novalidate class="rounded-[var(--radius)] border border-[var(--color-border)] bg-[var(--color-surface)] p-7 md:p-9">
+          <div class="stepper mb-9" aria-label="Etapas do agendamento">
+            <div class="step active" data-step="1"><span>1</span><strong>Serviço</strong></div>
+            <div class="step-line"></div>
+            <div class="step" data-step="2"><span>2</span><strong>Horário</strong></div>
+            <div class="step-line"></div>
+            <div class="step" data-step="3"><span>3</span><strong>Dados</strong></div>
+          </div>
+
+          <div class="mb-8">
+            <h3 class="font-heading text-2xl text-[var(--color-heading)]">1. Escolha seus serviços</h3>
+            <p data-summary class="mt-1 text-sm text-[var(--color-muted)]">Nenhum serviço selecionado</p>
+          </div>
+
+          <div class="grid gap-3 sm:grid-cols-3">
+            <button type="button" data-service="corte" class="service-card">
+              <i data-lucide="scissors" class="mb-5 h-5 w-5 text-[var(--color-primary)]"></i>
+              <strong class="block text-sm text-[var(--color-heading)]">Corte</strong>
+              <span class="mt-1 block text-sm text-[var(--color-muted)]">R$ 45,00</span>
+            </button>
+            <button type="button" data-service="barba" class="service-card">
+              <i data-lucide="sparkles" class="mb-5 h-5 w-5 text-[var(--color-primary)]"></i>
+              <strong class="block text-sm text-[var(--color-heading)]">Barba</strong>
+              <span class="mt-1 block text-sm text-[var(--color-muted)]">R$ 35,00</span>
+            </button>
+            <button type="button" data-service="pintura" class="service-card">
+              <i data-lucide="palette" class="mb-5 h-5 w-5 text-[var(--color-primary)]"></i>
+              <strong class="block text-sm text-[var(--color-heading)]">Pintura</strong>
+              <span class="mt-1 block text-sm text-[var(--color-muted)]">R$ 80,00</span>
+            </button>
+          </div>
+
+          <div class="mt-9">
+            <p class="mb-3 text-sm text-[var(--color-muted)]">2. Escolha o dia</p>
+            <input type="date" name="data" class="form-input" style="max-width:220px;margin-top:0">
+          </div>
+
+          <div class="mt-9">
+            <p class="mb-3 text-sm text-[var(--color-muted)]">3. Escolha o horário</p>
+            <div data-times class="flex flex-wrap gap-2"><p class="text-sm text-[var(--color-muted)]">Escolha o serviço e o dia.</p></div>
+            <p data-barber-title hidden class="mb-3 mt-6 text-sm text-[var(--color-muted)]">4. Escolha o barbeiro</p>
+            <div data-barbers class="flex flex-wrap gap-2"></div>
+          </div>
+
+          <div class="mt-8 grid gap-4 md:grid-cols-2">
+            <label class="field-label">Seu nome
+              <input required name="nome" type="text" autocomplete="name" placeholder="Como podemos te chamar?" class="form-input">
+            </label>
+            <label class="field-label">WhatsApp
+              <input required name="whatsapp" type="tel" inputmode="tel" autocomplete="tel" placeholder="(11) 99999-9999" class="form-input">
+            </label>
+          </div>
+
+          <input type="hidden" name="horario">
+          <input type="hidden" name="barbeiro">
+
+          <div class="mt-9 flex flex-wrap items-center justify-between gap-5 border-t border-[var(--color-border)] pt-6">
+            <div>
+              <span class="block text-xs uppercase tracking-widest text-[var(--color-muted)]">Total estimado</span>
+              <strong data-total class="font-heading text-3xl text-[var(--color-primary)]">R$ 0,00</strong>
+            </div>
+            <button class="primary-button inline-flex items-center gap-2 rounded-[var(--radius)] px-6 py-3 font-semibold" type="submit">
+              Confirmar agendamento <i data-lucide="arrow-right" class="h-4 w-4"></i>
+            </button>
+          </div>
+          <p data-form-message class="mt-4 min-h-5 text-sm" role="alert" aria-live="polite"></p>
+        </form>
+
+        <aside class="booking-panel h-fit rounded-[var(--radius)] border border-[var(--color-border)] bg-[var(--color-surface)] p-8">
+          <div class="mb-6 flex h-12 w-12 items-center justify-center rounded-full bg-[var(--color-primary)] text-[var(--color-primary-contrast)]">
+            <i data-lucide="clipboard-check" class="h-5 w-5"></i>
+          </div>
+          <p class="text-xs font-semibold uppercase tracking-[.25em] text-[var(--color-primary)]">Seu resumo</p>
+          <h3 class="mt-2 font-heading text-3xl text-[var(--color-heading)]">Tudo certo antes de confirmar.</h3>
+          <div class="summary-box mt-7 space-y-4">
+            <div><span>Serviços</span><strong data-side-services>Nenhum selecionado</strong></div>
+            <div><span>Horário</span><strong data-side-time>Não escolhido</strong></div>
+            <div><span>Barbeiro</span><strong data-side-barber>Não escolhido</strong></div>
+            <div><span>Cliente</span><strong data-side-name>Ainda não informado</strong></div>
+            <div class="border-t border-[var(--color-border)] pt-4"><span>Total</span><strong data-side-total>R$ 0,00</strong></div>
+          </div>
+          <p class="mt-6 text-sm leading-relaxed text-[var(--color-muted)]">Depois da solicitação, a equipe confirma os detalhes pelo WhatsApp.</p>
+        </aside>
+
+        <div class="booking-success hidden h-fit rounded-[var(--radius)] border border-[var(--color-primary)] bg-[var(--color-surface)] p-8" role="status" aria-live="polite">
+          <div class="flex h-12 w-12 items-center justify-center rounded-full bg-[var(--color-primary)] text-[var(--color-primary-contrast)]"><i data-lucide="check" class="h-6 w-6"></i></div>
+          <p class="mt-6 text-xs font-semibold uppercase tracking-[.25em] text-[var(--color-primary)]">Solicitação enviada</p>
+          <h3 class="mt-2 font-heading text-3xl text-[var(--color-heading)]">Agendamento solicitado.</h3>
+          <p class="mt-3 leading-relaxed text-[var(--color-muted)]">Perfeito, <span data-booking-name class="text-[var(--color-text)]"></span>. Seu horário escolhido é <span data-booking-time class="text-[var(--color-primary)]"></span>. A equipe entrará em contato pelo WhatsApp para confirmar.</p>
+          <button type="button" data-new-booking class="secondary-button mt-7 rounded-[var(--radius)] px-5 py-3 text-sm font-semibold">Fazer outro agendamento</button>
+        </div>
+      </div>
+    </section>
+
+
+    <section id="duvidas" class="px-6 py-24 md:px-16 lg:px-24">
+      <div class="grid gap-12 lg:grid-cols-[.7fr_1.3fr]">
+        <div>
+          <p class="mb-4 text-xs font-semibold uppercase tracking-[.3em] text-[var(--color-primary)]">Dúvidas rápidas</p>
+          <h2 class="font-heading text-5xl text-[var(--color-heading)]">Antes de<br><em>chegar.</em></h2>
+          <p class="mt-5 max-w-sm leading-relaxed text-[var(--color-muted)]">Respostas simples para as perguntas que mais aparecem no dia a dia.</p>
+        </div>
+        <div class="faq-list">
+          <details class="faq-item" open>
+            <summary>Preciso marcar horário?</summary>
+            <p>Sim. Trabalhamos com hora marcada para que cada atendimento tenha seu tempo e atenção.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Posso escolher mais de um serviço?</summary>
+            <p>Sim. Você pode combinar Corte, Barba e Pintura no mesmo agendamento. O total é atualizado automaticamente.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Como o agendamento é confirmado?</summary>
+            <p>Você envia a solicitação pelo site e a equipe confirma os detalhes pelo WhatsApp.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Onde fica a barbearia?</summary>
+            <p>Rua dos Ofícios, 118 — Vila Ipanema , Ipatinga.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="border-t border-[var(--color-border)] bg-[var(--color-surface)] px-6 py-16 md:px-16 lg:px-24" aria-label="Informações de atendimento">
+      <div class="grid gap-8 md:grid-cols-3">
+        <div class="flex gap-4"><span class="info-icon"><i data-lucide="map-pin"></i></span><div><p class="info-label">Onde estamos</p><p class="mt-2 font-semibold text-[var(--color-heading)]">Rua dos Ofícios, 118</p><p class="mt-1 text-sm text-[var(--color-muted)]">Vila Ipanema , Ipatinga</p></div></div>
+        <div class="flex gap-4"><span class="info-icon"><i data-lucide="clock-3"></i></span><div><p class="info-label">Horário de atendimento</p><p class="mt-2 font-semibold text-[var(--color-heading)]">Terça a sábado</p><p class="mt-1 text-sm text-[var(--color-muted)]">09:00 às 20:00</p></div></div>
+        <div class="flex gap-4"><span class="info-icon"><i data-lucide="scissors"></i></span><div><p class="info-label">Atendimento</p><p class="mt-2 font-semibold text-[var(--color-heading)]">Com hora marcada</p><p class="mt-1 text-sm text-[var(--color-muted)]">Cortes, barba e pintura</p></div></div>
+      </div>
+    </section>
+
+    <footer class="border-t border-[var(--color-border)] px-6 py-8 md:px-16 lg:px-24">
+      <div class="flex flex-col justify-between gap-5 md:flex-row md:items-center">
+        <div>
+          <span class="block text-sm text-[var(--color-muted)]">© 2026 Casa da Navalha</span>
+          <span class="mt-1 block text-xs text-[var(--color-muted)]">Feito para quem leva o estilo a sério.</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <span class="text-xs uppercase tracking-[.2em] text-[var(--color-muted)]">Siga a casa</span>
+          <!-- Troque # pelo link real do Instagram da barbearia. -->
+          <a href="#" data-instagram-link class="social-link" aria-label="Instagram da Casa da Navalha">
+            <i data-lucide="instagram"></i><span>Instagram</span>
+          </a>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

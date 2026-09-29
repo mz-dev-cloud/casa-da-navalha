@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Painel | Casa da Navalha</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<style>
+:root{--p:#d6a85f;--bg:#171411;--s:#211c18;--s2:#2a231d;--t:#f7f0e7;--m:#aa9f94;--b:rgba(255,250,242,.12);--red:#d66f5f;--green:#7fb685}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--t);font-family:Inter,system-ui,sans-serif;padding:1rem;line-height:1.4}
+.w{max-width:680px;margin:0 auto}
+h1,h2,h3{margin:0;font-family:'Trebuchet MS',Arial,sans-serif;color:#fffaf2}
+h2{font-size:1.1rem}
+.card{background:var(--s);border:1px solid var(--b);border-radius:14px;padding:1rem;margin-bottom:.8rem}
+input,textarea,button{font:inherit;border-radius:10px;border:1px solid var(--b);background:transparent;color:var(--t);padding:.55rem .8rem}
+input[type=date],input[type=time]{color-scheme:dark}
+button{cursor:pointer;transition:border-color .15s,background .15s}
+button:hover{border-color:var(--p)}
+.pri{background:var(--p);color:#171411;border:0;font-weight:600}
+.pri:hover{filter:brightness(1.08)}
+.row{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center}
+.sp{justify-content:space-between}
+.m{color:var(--m);font-size:.85rem}
+.x{color:var(--red)}
+.top{margin-bottom:1rem}
+.nav{display:flex;gap:.5rem;align-items:center;justify-content:space-between;margin-bottom:.6rem}
+.nav .mid{flex:1;text-align:center}
+.nav .mid b{display:block;font-size:1.15rem;text-transform:capitalize;color:#fffaf2}
+.chips{display:flex;gap:.5rem;flex-wrap:wrap;margin:.6rem 0 1rem}
+.chip{background:var(--s);border:1px solid var(--b);border-radius:999px;padding:.35rem .8rem;font-size:.85rem}
+.chip b{color:var(--p)}
+.legend{display:flex;gap:1rem;flex-wrap:wrap;font-size:.78rem;color:var(--m);margin:.4rem 0 .8rem}
+.dot{display:inline-block;width:.6rem;height:.6rem;border-radius:50%;margin-right:.35rem}
+.slot{display:flex;gap:.8rem;align-items:stretch;margin-bottom:.4rem}
+.slot .h{width:3.2rem;flex-shrink:0;padding-top:.7rem;color:var(--m);font-size:.85rem;text-align:right}
+.slot .c{flex:1;border:1px solid var(--b);border-left:3px solid var(--green);border-radius:10px;padding:.55rem .8rem;display:flex;gap:.6rem;align-items:center;justify-content:space-between;flex-wrap:wrap;min-height:2.6rem}
+.slot.free .c{color:var(--m)}
+.slot.free .c button{font-size:.8rem;padding:.3rem .7rem;color:var(--m)}
+.slot.booked .c{border-left-color:var(--p);background:var(--s);display:block}
+.slot.booked strong{color:#fffaf2}
+.slot.cont .c{border-left-color:var(--p);opacity:.5;min-height:1.6rem;padding:.2rem .8rem;font-size:.8rem;color:var(--m)}
+.slot.cont .h{padding-top:.25rem}
+.slot.closed .c{border-left-color:var(--red);background:repeating-linear-gradient(135deg,transparent 0 8px,rgba(214,111,95,.07) 8px 16px);color:var(--m)}
+.slot.closed .c button{font-size:.8rem;padding:.3rem .7rem}
+.btns{display:flex;gap:.5rem;margin-top:.6rem;flex-wrap:wrap}
+.btns button{font-size:.85rem}
+.wa{color:var(--p);text-decoration:none}
+details{margin-top:1rem}
+summary{cursor:pointer;color:var(--m);font-size:.9rem;padding:.4rem 0}
+dialog{background:var(--s);color:var(--t);border:1px solid var(--b);border-radius:14px;width:min(420px,92vw)}
+dialog::backdrop{background:rgba(0,0,0,.6)}
+textarea{width:100%;margin:.6rem 0}
+.canc{opacity:.7}
+
+[hidden]{display:none!important}
+.auth{min-height:88vh;display:grid;place-items:center}
+.auth-card{width:min(400px,100%);background:var(--s);border:1px solid var(--b);border-radius:20px;padding:2rem 1.6rem;box-shadow:0 24px 60px rgba(0,0,0,.35);text-align:center;
+  background-image:radial-gradient(rgba(214,168,95,.09) 1px,transparent 1px);background-size:18px 18px}
+.logo{width:3.6rem;height:3.6rem;margin:0 auto 1rem;border-radius:50%;display:grid;place-items:center;background:var(--p);color:#171411;font-size:1.6rem}
+.auth-card h1{font-size:1.6rem}
+.sub{color:var(--m);margin:.3rem 0 1.4rem;font-size:.9rem;letter-spacing:.08em;text-transform:uppercase}
+.auth-card form{display:grid;gap:1rem;text-align:left}
+.auth-card label{display:grid;gap:.4rem;font-size:.85rem;color:var(--m)}
+.auth-card input{width:100%;background:var(--bg);padding:.8rem .9rem;color:var(--t)}
+.auth-card input:focus{outline:none;border-color:var(--p);box-shadow:0 0 0 3px rgba(214,168,95,.12)}
+.pw{position:relative}
+.pw input{padding-right:3rem}
+.eye{position:absolute;right:.3rem;top:50%;transform:translateY(-50%);border:0;padding:.45rem;color:var(--m);display:grid;place-items:center}
+.eye:hover{color:var(--p)}
+.eye svg{width:1.25rem;height:1.25rem}
+.big{padding:.85rem;font-size:1rem;margin-top:.2rem}
+.pri:disabled{opacity:.6;cursor:wait}
+.link{border:0;background:none;color:var(--m);font-size:.85rem;text-decoration:underline;padding:.2rem}
+.link:hover{color:var(--p)}
+.msg{min-height:1.3rem;margin:1rem 0 0;font-size:.88rem}
+.msg.err{color:var(--red)}
+.msg.ok{color:var(--green)}
+
+.tabs{display:flex;gap:.4rem;margin-bottom:1rem;background:var(--s);border:1px solid var(--b);border-radius:12px;padding:.25rem}
+.tabs button{flex:1;border:0;padding:.6rem}
+.tabs button.on{background:var(--p);color:#171411;font-weight:600}
+.cfrow{display:flex;gap:.6rem 1rem;flex-wrap:wrap;align-items:center;padding:.8rem 0;border-top:1px solid var(--b)}
+.card h2+.m+div>.cfrow:first-child{border-top:0}
+.cfrow label.nm{min-width:6.5rem;font-weight:600;font-size:1rem;color:var(--t);display:flex;gap:.5rem;align-items:center}
+.cfrow label{display:flex;gap:.4rem;align-items:center;font-size:.85rem;color:var(--m)}
+.cfrow input[type=number]{width:5.5rem}
+.opts{display:flex;gap:.6rem 1rem;flex-wrap:wrap;align-items:center}
+.cfrow.off>.opts{opacity:.35;pointer-events:none}
+input[type=checkbox]{width:1.15rem;height:1.15rem;accent-color:var(--p);padding:0}
+.chipb{font-size:.78rem;padding:.25rem .7rem;border-radius:999px;color:var(--m)}
+</style>
+</head>
+<body>
+<div class="w">
+
+  <div id="login" class="auth">
+    <div class="auth-card">
+      <div class="logo">✂</div>
+      <h1>Âncora &amp; Navalha</h1>
+      <p class="sub" id="asub">Painel do barbeiro</p>
+
+      <form id="fLogin">
+        <label>Email
+          <input id="email" type="email" autocomplete="username" required placeholder="seu@email.com">
+        </label>
+        <label>Senha
+          <div class="pw">
+            <input id="senha" type="password" autocomplete="current-password" required placeholder="Sua senha">
+            <button type="button" class="eye" data-eye="senha" aria-label="Mostrar ou ocultar senha"></button>
+          </div>
+        </label>
+        <button class="pri big" id="entrar">Entrar</button>
+        <button type="button" class="link" id="esqueci">Esqueci minha senha</button>
+      </form>
+
+      <form id="fForgot" hidden>
+        <p class="m" style="margin:0">Digite seu email. Vamos enviar um link para você criar uma nova senha.</p>
+        <label>Email
+          <input id="femail" type="email" required placeholder="seu@email.com">
+        </label>
+        <button class="pri big" id="enviar">Enviar link</button>
+        <button type="button" class="link" data-back>Voltar para o login</button>
+      </form>
+
+      <form id="fNew" hidden>
+        <label>Nova senha
+          <div class="pw">
+            <input id="n1" type="password" autocomplete="new-password" required placeholder="Mínimo 6 caracteres">
+            <button type="button" class="eye" data-eye="n1" aria-label="Mostrar ou ocultar senha"></button>
+          </div>
+        </label>
+        <label>Repita a nova senha
+          <div class="pw">
+            <input id="n2" type="password" autocomplete="new-password" required placeholder="Repita a senha">
+            <button type="button" class="eye" data-eye="n2" aria-label="Mostrar ou ocultar senha"></button>
+          </div>
+        </label>
+        <button class="pri big">Salvar nova senha</button>
+      </form>
+
+      <p id="lmsg" class="msg"></p>
+    </div>
+  </div>
+
+  <div id="app" hidden>
+    <div class="row sp top">
+      <div>
+        <p class="m" style="margin:0">Agenda de</p>
+        <h1 id="nome"></h1>
+      </div>
+      <button id="sair">Sair</button>
+    </div>
+
+    <div class="tabs">
+      <button id="tAg" class="on">Agenda</button>
+      <button id="tCf">Configurações</button>
+    </div>
+
+    <div id="vAg">
+    <div class="nav">
+      <button id="ant" aria-label="Dia anterior">◀</button>
+      <div class="mid">
+        <b id="dialabel"></b>
+        <input id="dia" type="date" aria-label="Escolher outro dia" style="margin-top:.3rem">
+      </div>
+      <button id="prox" aria-label="Próximo dia">▶</button>
+    </div>
+    <div class="row" style="justify-content:center"><button id="hoje">Voltar para hoje</button></div>
+
+    <div class="chips" id="chips"></div>
+
+    <div class="row sp">
+      <h2>Horários do dia</h2>
+      <button id="diatodo" class="x">Cancelar o dia todo</button>
+    </div>
+    <div class="legend">
+      <span><i class="dot" style="background:var(--green)"></i>Livre: clientes podem marcar</span>
+      <span><i class="dot" style="background:var(--p)"></i>Cliente agendado</span>
+      <span><i class="dot" style="background:var(--red)"></i>Fechado: ninguém consegue marcar</span>
+    </div>
+    <div id="lista"></div>
+
+    <div id="cancBox" hidden>
+      <h2 style="margin:1.2rem 0 .5rem">Cancelados neste dia</h2>
+      <div id="canc"></div>
+    </div>
+
+    <details>
+      <summary>Fechar um intervalo (reagendamento, saída mais cedo, pessoal...)</summary>
+      <div class="card">
+        <div class="row" style="margin-bottom:.6rem">
+          <label class="m">De <input id="bi" type="time" value="15:00"></label>
+          <label class="m">Até <input id="bf" type="time" value="17:00"></label>
+        </div>
+        <div class="row">
+          <input id="bmot" placeholder="Motivo (só você vê)" style="flex:1;min-width:160px">
+          <button id="fechar" class="pri">Fechar intervalo</button>
+        </div>
+        <div class="row" style="margin-top:.6rem">
+          <button type="button" class="chipb" data-mot="Reagendamento programado">Reagendamento programado</button>
+          <button type="button" class="chipb" data-mot="Pessoal">Pessoal</button>
+        </div>
+        <p id="bmsg" class="x"></p>
+      </div>
+    </details>
+    </div>
+
+    <div id="vCf" hidden>
+      <div class="card">
+        <h2>Meus serviços</h2>
+        <p class="m">Marque o que você faz, quanto tempo leva e quanto cobra. É isso que o cliente vê no site.</p>
+        <div id="cfServ"></div>
+      </div>
+      <div class="card">
+        <h2>Meu expediente</h2>
+        <p class="m">Marque os dias em que você atende e o horário. O almoço fica fechado para agendamentos.</p>
+        <div id="cfExp"></div>
+      </div>
+      <button id="cfSave" class="pri big" style="width:100%">Salvar alterações</button>
+      <p id="cfMsg" class="msg"></p>
+      <p class="m">Agendamentos que já existem não mudam. As alterações valem para novos agendamentos.</p>
+    </div>
+  </div>
+</div>
+
+<dialog id="dlg">
+  <h2 id="dtitle">Cancelar agendamento</h2>
+  <p id="dinfo" class="m"></p>
+  <textarea id="motivo" rows="3" placeholder="Escreva o motivo do cancelamento"></textarea>
+  <div class="row">
+    <button id="dno">Voltar</button>
+    <button id="dyes" class="pri">Confirmar cancelamento</button>
+  </div>
+  <p id="dmsg" class="x"></p>
+</dialog>
+
+<script>
+const sb = supabase.createClient(
+  'https://yreowkknamoofmvzgifb.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlyZW93a2tuYW1vb2ZtdnpnaWZiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA3MTI4MzksImV4cCI6MjEwNjI4ODgzOX0.R_zyAjj5nK-RTiLlhmsB2isw1V0V7CbAXVVLUpHSKvY'
+);
+const $ = id => document.getElementById(id);
+const NOMES = { corte: 'Corte', barba: 'Barba', pintura: 'Pintura' };
+const STEP = 30;
+let me = null, cancelId = null, cancelMode = 'one', curAgs = [];
+
+function el(tag, cls, txt) {
+  const e = document.createElement(tag);
+  if (cls) e.className = cls;
+  if (txt != null) e.textContent = txt;
+  return e;
+}
+const brl = v => 'R$ ' + Number(v).toFixed(2).replace('.', ',');
+const mins = t => { const [h, m] = t.split(':'); return +h * 60 + +m; };
+const hhmm = n => String(Math.floor(n / 60)).padStart(2, '0') + ':' + String(n % 60).padStart(2, '0');
+const today = () => new Date().toLocaleDateString('en-CA');
+const show = on => { $('login').hidden = on; $('app').hidden = !on; };
+
+async function start() {
+  const { data } = await sb.from('barbeiros').select('id,nome').maybeSingle();
+  if (!data) {
+    await sb.auth.signOut();
+    show(false); view('fLogin'); msg('Este usuário não é barbeiro.');
+    return;
+  }
+  me = data;
+  $('nome').textContent = me.nome;
+  $('dia').value = today();
+  show(true);
+  tab('ag');
+}
+
+const EYE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>';
+const EYEOFF = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l18 18M10.6 5.1A10 10 0 0 1 12 5c6.4 0 10 7 10 7a17 17 0 0 1-3.2 4.2M6.6 6.6A16.6 16.6 0 0 0 2 12s3.6 7 10 7a9.7 9.7 0 0 0 4.4-1M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg>';
+document.querySelectorAll('[data-eye]').forEach(b => {
+  b.innerHTML = EYE;
+  b.onclick = () => {
+    const i = $(b.dataset.eye), ver = i.type === 'password';
+    i.type = ver ? 'text' : 'password';
+    b.innerHTML = ver ? EYEOFF : EYE;
+  };
+});
+
+function msg(t, ok) { const m = $('lmsg'); m.textContent = t || ''; m.className = 'msg ' + (t ? (ok ? 'ok' : 'err') : ''); }
+function view(v) {
+  ['fLogin', 'fForgot', 'fNew'].forEach(id => $(id).hidden = id !== v);
+  $('asub').textContent = { fLogin: 'Painel do barbeiro', fForgot: 'Recuperar senha', fNew: 'Criar nova senha' }[v];
+  msg('');
+}
+$('esqueci').onclick = () => { $('femail').value = $('email').value; view('fForgot'); };
+document.querySelectorAll('[data-back]').forEach(b => b.onclick = () => view('fLogin'));
+
+$('fLogin').onsubmit = async e => {
+  e.preventDefault();
+  msg('');
+  const b = $('entrar');
+  b.disabled = true; b.textContent = 'Entrando...';
+  const { error } = await sb.auth.signInWithPassword({ email: $('email').value.trim(), password: $('senha').value });
+  b.disabled = false; b.textContent = 'Entrar';
+  if (error) return msg('Email ou senha incorretos.');
+  start();
+};
+
+$('fForgot').onsubmit = async e => {
+  e.preventDefault();
+  const b = $('enviar');
+  b.disabled = true;
+  const { error } = await sb.auth.resetPasswordForEmail($('femail').value.trim(), { redirectTo: location.origin + location.pathname });
+  b.disabled = false;
+  msg(error ? 'Não foi possível enviar agora. Tente de novo em alguns minutos.' : 'Pronto! Se esse email tiver cadastro, o link chega em instantes. Olhe também o spam.', !error);
+};
+
+let recovering = location.hash.includes('type=recovery');
+sb.auth.onAuthStateChange(ev => { if (ev === 'PASSWORD_RECOVERY') { recovering = true; show(false); view('fNew'); } });
+$('fNew').onsubmit = async e => {
+  e.preventDefault();
+  if ($('n1').value.length < 6) return msg('Use pelo menos 6 caracteres.');
+  if ($('n1').value !== $('n2').value) return msg('As senhas não são iguais.');
+  const { error } = await sb.auth.updateUser({ password: $('n1').value });
+  if (error) return msg('Não foi possível salvar. Peça um novo link.');
+  msg('Senha alterada!', true);
+  recovering = false;
+  setTimeout(() => { history.replaceState(null, '', location.pathname); start(); }, 800);
+};
+$('sair').onclick = async () => { await sb.auth.signOut(); show(false); view('fLogin'); };
+
+async function load() {
+  const d = $('dia').value;
+  if (!d || !me) return;
+  const dow = new Date(d + 'T12:00').getDay();
+  $('dialabel').textContent = new Date(d + 'T12:00').toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' });
+
+  const [a, b, e] = await Promise.all([
+    sb.from('agendamentos').select('*').eq('barbeiro_id', me.id).eq('data', d).order('hora'),
+    sb.from('bloqueios').select('*').eq('barbeiro_id', me.id).eq('data', d),
+    sb.from('expediente').select('inicio,fim').eq('barbeiro_id', me.id).eq('dia_semana', dow).order('inicio')
+  ]);
+  const all = a.data || [];
+  const ags = all.filter(x => x.status !== 'cancelado').map(x => ({ ...x, s: mins(x.hora), e: mins(x.hora) + x.duracao_min }));
+  const blq = (b.data || []).map(x => ({ ...x, s: mins(x.inicio), e: mins(x.fim) }));
+  const exp = e.data || [];
+
+  curAgs = ags;
+  // resumo
+  const total = ags.reduce((t, x) => t + Number(x.total), 0);
+  const chips = $('chips');
+  chips.replaceChildren();
+  const chip = (label, val) => { const c = el('span', 'chip', label + ' '); c.append(el('b', null, val)); chips.append(c); };
+  chip('Clientes:', String(ags.length));
+  chip('A receber:', brl(total));
+
+  // linha do tempo
+  const L = $('lista');
+  L.replaceChildren();
+  if (!exp.length) {
+    L.append(el('p', 'm', 'Você não atende neste dia da semana.'));
+  }
+  exp.forEach(r => {
+    for (let s = mins(r.inicio); s < mins(r.fim); s += STEP) {
+      const ag = ags.find(x => s >= x.s && s < x.e);
+      const bl = blq.find(x => s >= x.s && s < x.e);
+      const row = el('div', 'slot');
+      row.append(el('div', 'h', hhmm(s)));
+      const c = el('div', 'c');
+      row.append(c);
+      if (ag && ag.s === s) {
+        row.classList.add('booked');
+        const t = el('div', 'row sp');
+        t.append(el('strong', null, ag.cliente_nome), el('strong', null, brl(ag.total)));
+        c.append(t);
+        c.append(el('div', 'm', ag.servicos.map(x => NOMES[x] || x).join(' + ') + ' · ' + hhmm(ag.s) + ' às ' + hhmm(ag.e)));
+        const w = el('a', 'wa m', 'WhatsApp: ' + ag.cliente_whatsapp);
+        w.href = 'https://wa.me/55' + ag.cliente_whatsapp.replace(/\D/g, '');
+        w.target = '_blank';
+        w.rel = 'noopener';
+        const bt = el('div', 'btns');
+        const cb = el('button', 'x', 'Cancelar agendamento');
+        cb.onclick = () => openCancel(ag);
+        bt.append(cb);
+        c.append(w, bt);
+      } else if (ag) {
+        row.classList.add('cont');
+        c.textContent = 'ocupado (' + ag.cliente_nome + ')';
+      } else if (bl) {
+        row.classList.add('closed');
+        c.append(el('span', null, 'Fechado' + (bl.motivo ? ' · ' + bl.motivo : '') + (bl.e - bl.s > STEP ? ' (' + hhmm(bl.s) + '–' + hhmm(bl.e) + ')' : '')));
+        const ob = el('button', null, 'Abrir');
+        ob.onclick = async () => { await sb.from('bloqueios').delete().eq('id', bl.id); load(); };
+        c.append(ob);
+      } else {
+        row.classList.add('free');
+        c.append(el('span', null, 'Livre'));
+        const fb = el('button', null, 'Fechar este horário');
+        fb.onclick = () => bloquear(hhmm(s), hhmm(s + STEP));
+        c.append(fb);
+      }
+      L.append(row);
+    }
+  });
+
+  // cancelados
+  const cancelados = all.filter(x => x.status === 'cancelado');
+  $('cancBox').hidden = !cancelados.length;
+  const C = $('canc');
+  C.replaceChildren();
+  cancelados.forEach(x => {
+    const c = el('div', 'card canc');
+    c.append(el('strong', null, hhmm(mins(x.hora)) + ' · ' + x.cliente_nome));
+    c.append(el('div', 'm', 'Motivo: ' + (x.motivo_cancelamento || '')));
+    C.append(c);
+  });
+}
+
+async function bloquear(i, f, motivo) {
+  if (!i || !f || f <= i) return $('bmsg').textContent = 'Horário inválido.';
+  const s0 = mins(i), e0 = mins(f);
+  const hit = curAgs.filter(x => x.s < e0 && x.e > s0);
+  if (hit.length && !confirm('Já tem cliente nesse horário: ' + hit.map(x => x.cliente_nome).join(', ') + '.\nFechar NÃO cancela o agendamento dele. Continuar?')) return;
+  const { error } = await sb.from('bloqueios').insert({
+    barbeiro_id: me.id, data: $('dia').value, inicio: i, fim: f, motivo: motivo || null
+  });
+  $('bmsg').textContent = error ? error.message : '';
+  if (!error) load();
+}
+$('fechar').onclick = () => bloquear($('bi').value, $('bf').value, $('bmot').value.trim());
+document.querySelectorAll('[data-mot]').forEach(b => b.onclick = () => $('bmot').value = b.dataset.mot);
+function openDay() {
+  cancelMode = 'day';
+  $('dtitle').textContent = 'Cancelar o dia todo';
+  $('dinfo').textContent = curAgs.length
+    ? 'Isso cancela ' + curAgs.length + ' agendamento(s) e fecha o dia inteiro para novos clientes.'
+    : 'Ninguém agendado. O dia será fechado para novos agendamentos.';
+  $('motivo').value = '';
+  $('dmsg').textContent = '';
+  $('dlg').showModal();
+}
+$('diatodo').onclick = openDay;
+
+function openCancel(x) {
+  cancelId = x.id;
+  cancelMode = 'one';
+  $('dtitle').textContent = 'Cancelar agendamento';
+  $('dinfo').textContent = hhmm(x.s) + ' · ' + x.cliente_nome + ' · ' + x.servicos.map(s => NOMES[s] || s).join(' + ');
+  $('motivo').value = '';
+  $('dmsg').textContent = '';
+  $('dlg').showModal();
+}
+$('dno').onclick = () => $('dlg').close();
+$('dyes').onclick = async () => {
+  const m = $('motivo').value.trim();
+  if (!m && (cancelMode === 'one' || curAgs.length)) return $('dmsg').textContent = 'Escreva o motivo.';
+  const { error } = cancelMode === 'one'
+    ? await sb.rpc('cancelar_agendamento', { p_id: cancelId, p_motivo: m })
+    : await sb.rpc('cancelar_dia', { p_data: $('dia').value, p_motivo: m });
+  if (error) return $('dmsg').textContent = error.message;
+  $('dlg').close();
+  load();
+};
+
+function mv(n) {
+  const d = new Date($('dia').value + 'T12:00');
+  d.setDate(d.getDate() + n);
+  $('dia').value = d.toLocaleDateString('en-CA');
+  load();
+}
+$('ant').onclick = () => mv(-1);
+$('prox').onclick = () => mv(1);
+$('hoje').onclick = () => { $('dia').value = today(); load(); };
+$('dia').onchange = load;
+
+// ---------- abas e configurações
+const DIAS = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
+function tab(n) {
+  $('vAg').hidden = n !== 'ag';
+  $('vCf').hidden = n !== 'cf';
+  $('tAg').classList.toggle('on', n === 'ag');
+  $('tCf').classList.toggle('on', n === 'cf');
+  n === 'cf' ? loadCfg() : load();
+}
+$('tAg').onclick = () => tab('ag');
+$('tCf').onclick = () => tab('cf');
+
+function inp(type, val, attrs) {
+  const i = document.createElement('input');
+  i.type = type; i.value = val;
+  Object.assign(i, attrs || {});
+  return i;
+}
+function lab(text, input, cls) {
+  const l = el('label', cls || null);
+  l.append(text + ' ', input);
+  return l;
+}
+function check(checked, cls) { const c = inp('checkbox', ''); c.checked = checked; c.className = cls; return c; }
+function cfMsg(t, ok) { const m = $('cfMsg'); m.textContent = t || ''; m.className = 'msg ' + (t ? (ok ? 'ok' : 'err') : ''); }
+
+async function loadCfg() {
+  cfMsg('');
+  const [s, bs, ex] = await Promise.all([
+    sb.from('servicos').select('slug,nome,preco'),
+    sb.from('barbeiro_servicos').select('*').eq('barbeiro_id', me.id),
+    sb.from('expediente').select('*').eq('barbeiro_id', me.id).order('inicio')
+  ]);
+  const mine = Object.fromEntries((bs.data || []).map(x => [x.servico, x]));
+
+  const S = $('cfServ');
+  S.replaceChildren();
+  (s.data || []).forEach(sv => {
+    const cur = mine[sv.slug];
+    const row = el('div', 'cfrow' + (cur ? '' : ' off'));
+    row.dataset.slug = sv.slug;
+    const ck = check(!!cur, 'ck');
+    const nm = el('label', 'nm');
+    nm.append(ck, sv.nome);
+    const dur = inp('number', cur ? cur.duracao_min : 30, { min: 10, max: 480, step: 5, className: 'dur' });
+    const pr = inp('number', cur && cur.preco != null ? cur.preco : sv.preco, { min: 0, max: 9999, step: 0.01, className: 'pr' });
+    const o = el('div', 'opts');
+    o.append(lab('Duração (min)', dur), lab('Preço (R$)', pr));
+    ck.onchange = () => row.classList.toggle('off', !ck.checked);
+    row.append(nm, o);
+    S.append(row);
+  });
+
+  const E = $('cfExp');
+  E.replaceChildren();
+  [1, 2, 3, 4, 5, 6, 0].forEach(d => {
+    const rs = (ex.data || []).filter(x => x.dia_semana === d);
+    const on = rs.length > 0;
+    const lunch = rs.length === 2;
+    const row = el('div', 'cfrow' + (on ? '' : ' off'));
+    row.dataset.dia = d;
+    const ck = check(on, 'ck');
+    const nm = el('label', 'nm');
+    nm.append(ck, DIAS[d]);
+    const o = el('div', 'opts');
+    const lk = check(lunch, 'lk');
+    const lw = el('span', 'opts');
+    lw.style.opacity = lunch ? 1 : .35;
+    lw.append(lab('de', inp('time', lunch ? rs[0].fim.slice(0, 5) : '13:00')), lab('às', inp('time', lunch ? rs[1].inicio.slice(0, 5) : '14:00')));
+    lk.onchange = () => lw.style.opacity = lk.checked ? 1 : .35;
+    o.append(
+      lab('Das', inp('time', on ? rs[0].inicio.slice(0, 5) : '09:00')),
+      lab('às', inp('time', on ? rs[rs.length - 1].fim.slice(0, 5) : '20:00')),
+      lab('Almoço', lk), lw
+    );
+    ck.onchange = () => row.classList.toggle('off', !ck.checked);
+    row.append(nm, o);
+    E.append(row);
+  });
+}
+
+$('cfSave').onclick = async () => {
+  const servicos = [], expediente = [];
+  let err = '';
+  document.querySelectorAll('#cfServ .cfrow').forEach(r => {
+    if (!r.querySelector('.ck').checked) return;
+    const dur = r.querySelector('.dur').value, pr = r.querySelector('.pr').value;
+    if (!dur || pr === '') { err = 'Preencha duração e preço de todos os serviços marcados.'; return; }
+    servicos.push({ servico: r.dataset.slug, duracao_min: +dur, preco: +pr });
+  });
+  document.querySelectorAll('#cfExp .cfrow').forEach(r => {
+    if (!r.querySelector('.ck').checked) return;
+    const d = +r.dataset.dia;
+    const [i, f, li, lf] = [...r.querySelectorAll('input[type=time]')].map(x => x.value);
+    if (!i || !f || f <= i) { err = DIAS[d] + ': horário inválido.'; return; }
+    if (r.querySelector('.lk').checked) {
+      if (!li || !lf || lf <= li || li <= i || lf >= f) { err = DIAS[d] + ': almoço inválido.'; return; }
+      expediente.push({ dia_semana: d, inicio: i, fim: li }, { dia_semana: d, inicio: lf, fim: f });
+    } else expediente.push({ dia_semana: d, inicio: i, fim: f });
+  });
+  if (err) return cfMsg(err);
+  if (!servicos.length) return cfMsg('Marque pelo menos um serviço.');
+  if (!expediente.length) return cfMsg('Marque pelo menos um dia de atendimento.');
+  const b = $('cfSave');
+  b.disabled = true;
+  const { error } = await sb.rpc('salvar_config', { p_servicos: servicos, p_expediente: expediente });
+  b.disabled = false;
+  cfMsg(error ? error.message : 'Salvo! Já vale para novos agendamentos.', !error);
+};
+
+if (recovering) { show(false); view('fNew'); }
+else sb.auth.getSession().then(({ data: { session } }) => session ? start() : show(false));
+</script>
+</body>
+</html>
